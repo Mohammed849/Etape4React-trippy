@@ -1,26 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+class App extends React.Component {
+  constructor(props) {
+    super(props);
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    this.state = {
+      cities: [],
+    };
+  }
+  componentDidMount() {
+    const url = 'http://localhost:3001/api/home';
+    fetch(url)
+      .then((res) => res.json())
+      .then((json) => {
+        // console.log('json');
+        // console.log('json', json);
+        const cities = json.cities;
+        // console.log(cities);
+        this.setState({
+          cities,
+        });
+      });
+  }
+  render() {
+    return (
+      <div>
+        {this.state.cities.map((city) => {
+          return (
+            <div>
+              <p>{city.name}</p>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
 }
-
 export default App;
